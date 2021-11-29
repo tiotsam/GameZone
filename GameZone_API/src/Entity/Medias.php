@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\MediasRepository;
+use App\Entity\Produit;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,22 +19,31 @@ class Medias
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $lien;
 
     /**
      * @ORM\ManyToOne(targetEntity=produit::class, inversedBy="medias")
      */
     private $produit;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    
+    private $nom;
 
     public function getId(): ?int
     {
@@ -71,6 +82,18 @@ class Medias
     public function setProduit(?produit $produit): self
     {
         $this->produit = $produit;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
 
         return $this;
     }

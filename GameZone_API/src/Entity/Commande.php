@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\CommandeRepository;
+use App\Entity\User;
+use App\Entity\Liste;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,42 +22,47 @@ class Commande
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $adressFacturation;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $adresseLivraison;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $quantité;
 
     /**
      * @ORM\Column(type="date")
      */
+    
     private $dateCommande;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Produit::class, mappedBy="commande")
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="commandes")
      */
-    private $produits;
+    
+    private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commande")
+     * @ORM\OneToMany(targetEntity=liste::class, mappedBy="commande", orphanRemoval=true)
      */
-    private $user;
+    private $liste;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $statut;
 
     public function __construct()
     {
-        $this->produits = new ArrayCollection();
-    }
+        $this->liste = new ArrayCollection();
+    }    
 
     public function getId(): ?int
     {
@@ -85,17 +93,12 @@ class Commande
         return $this;
     }
 
-    public function getQuantité(): ?int
-    {
-        return $this->quantité;
-    }
+    // public function setQuantité(int $quantité): self
+    // {
+    //     $this->quantité = $quantité;
 
-    public function setQuantité(int $quantité): self
-    {
-        $this->quantité = $quantité;
-
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getDateCommande(): ?\DateTimeInterface
     {
@@ -108,42 +111,57 @@ class Commande
 
         return $this;
     }
-
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Produit $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->addCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Produit $produit): self
-    {
-        if ($this->produits->removeElement($produit)) {
-            $produit->removeCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function getUser(): ?User
+    
+    public function getUser(): ?user
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?user $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|liste[]
+     */
+    public function getListe(): Collection
+    {
+        return $this->liste;
+    }
+
+    public function addListe(liste $liste): self
+    {
+        if (!$this->liste->contains($liste)) {
+            $this->liste[] = $liste;
+            $liste->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListe(liste $liste): self
+    {
+        if ($this->liste->removeElement($liste)) {
+            // set the owning side to null (unless already changed)
+            if ($liste->getCommande() === $this) {
+                $liste->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

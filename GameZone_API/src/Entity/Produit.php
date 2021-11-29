@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,46 +22,49 @@ class Produit
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $nom;
 
     /**
      * @ORM\Column(type="float")
      */
+    
     private $prix;
 
     /**
      * @ORM\Column(type="text")
      */
+    
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    
     private $type;
 
     /**
      * @ORM\Column(type="integer")
      */
+    
     private $stock;
 
     /**
      * @ORM\Column(type="date")
      */
+    
     private $dateSortie;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=commande::class, inversedBy="produits")
-     */
-    private $commande;
 
     /**
      * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="produit")
      */
+
     private $medias;
 
     /**
@@ -66,11 +72,18 @@ class Produit
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Liste::class, mappedBy="produit", orphanRemoval=true)
+     */
+    private $listes;
+
     public function __construct()
     {
         $this->commande = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->produitCommands = new ArrayCollection();
+        $this->listes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,30 +164,6 @@ class Produit
     }
 
     /**
-     * @return Collection|commande[]
-     */
-    public function getCommande(): Collection
-    {
-        return $this->commande;
-    }
-
-    public function addCommande(commande $commande): self
-    {
-        if (!$this->commande->contains($commande)) {
-            $this->commande[] = $commande;
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(commande $commande): self
-    {
-        $this->commande->removeElement($commande);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Medias[]
      */
     public function getMedias(): Collection
@@ -230,4 +219,35 @@ class Produit
 
         return $this;
     }
+
+    /**
+     * @return Collection|Liste[]
+     */
+    public function getListes(): Collection
+    {
+        return $this->listes;
+    }
+
+    public function addListe(Liste $liste): self
+    {
+        if (!$this->listes->contains($liste)) {
+            $this->listes[] = $liste;
+            $liste->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeListe(Liste $liste): self
+    {
+        if ($this->listes->removeElement($liste)) {
+            // set the owning side to null (unless already changed)
+            if ($liste->getProduit() === $this) {
+                $liste->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
