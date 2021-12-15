@@ -1,0 +1,90 @@
+.cptPage{
+    height: 94vh;
+    width: 100vw;
+    top: 5%;
+    background-color: #2F303A;
+    display: flex;
+    flex-direction: row;
+}
+
+.formContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    top : 5vh;
+    left: 10%;
+    right: auto;
+    height: 95%;
+    width: 20%;
+    background-color: #3D3E4C;
+    border: solid 2px #6DA6CF;
+    box-shadow: 
+    0 0 0.1vw  0.1vw #6DA6CF,   
+    0 0 0.2vw  0.2vw #881b55, 
+    0 0   2vw  0.3vw #E2318F,
+
+    inset 0 0 0.3vw  0.2vw #6DA6CF,
+    inset 0 0 0.2vw  0.1vw #881b55,
+    inset 0 0 0.1vw  0.05vw #E2318F;
+}
+
+.commandContainer{
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+    gap: 2%;
+    top : 5vh;
+    left: 20%;
+    right: auto;
+    height: 95%;
+    width: 80%;
+    background-color: #3D3E4C;
+    border: solid 2px #6DA6CF;
+    box-shadow: 
+    0 0 0.1vw  0.1vw #6DA6CF,   
+    0 0 0.2vw  0.2vw #881b55, 
+    0 0   2vw  0.3vw #E2318F,
+
+    inset 0 0 0.3vw  0.2vw #6DA6CF,
+    inset 0 0 0.2vw  0.1vw #881b55,
+    inset 0 0 0.1vw  0.05vw #E2318F;
+}
+
+.formUpdate{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index: 1;
+}
+
+.title{
+    font-family: "PoetsenOne";
+    font-size: 32px;
+    color: #6FA2CC;
+    /* text-border: solid 2px #6DA6CF; */
+}
+
+.listeCommand{
+    padding-left: 1%;
+    gap: 60%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: self-end;
+    height: 5%;
+    width: 80%;
+    background-color: #E5E5E5;
+    border: solid 2px #6DA6CF;
+    box-shadow: 
+    0 0 0.1vw  0.1vw #6DA6CF,   
+    0 0 0.2vw  0.2vw #881b55, 
+    0 0   2vw  0.3vw #E2318F,
+
+    inset 0 0 0.3vw  0.1vw #6DA6CF,
+    inset 0 0 0.2vw  0.05vw #881b55,
+    inset 0 0 0.1vw  0.025vw #E2318F;
+}

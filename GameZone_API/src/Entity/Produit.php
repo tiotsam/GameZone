@@ -14,7 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
  */
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read:produits']],
+    itemOperations: [
+       'PUT','DELETE','PATCH','GET'
+   ],
+)]
 class Produit
 {
     /**
@@ -22,54 +27,55 @@ class Produit
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $nom;
 
     /**
      * @ORM\Column(type="float")
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $prix;
 
     /**
      * @ORM\Column(type="text")
      */
-    
+    #[Groups(['read:produits'])]
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:produits'])]
     private $type;
 
     /**
      * @ORM\Column(type="integer")
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $stock;
 
     /**
      * @ORM\Column(type="date")
      */
-    
+    #[Groups(['read:produits'])]
     private $dateSortie;
 
     /**
      * @ORM\OneToMany(targetEntity=Medias::class, mappedBy="produit")
      */
-
+    #[Groups(['read:produits','read:user'])]
     private $medias;
 
     /**
      * @ORM\ManyToMany(targetEntity=Categorie::class, mappedBy="produit")
      */
+    #[Groups(['read:produits'])]
     private $categories;
 
     /**

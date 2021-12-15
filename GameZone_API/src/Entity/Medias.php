@@ -19,30 +19,31 @@ class Medias
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:produits'])]
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $lien;
 
     /**
      * @ORM\ManyToOne(targetEntity=produit::class, inversedBy="medias")
      */
+
     private $produit;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:produits','read:user'])]
     private $nom;
 
     public function getId(): ?int

@@ -1,0 +1,83 @@
+.navbar{
+    left: 0;
+    top: 0;
+    height: 6vh;
+    width: 100 vw;
+    background-color: #3D3E4D;
+    color: #E5E5E5;
+    display : flex;
+    orientation: row;
+    align-items: center;
+    font-size: 24px;
+    justify-content: space-evenly;
+    border-bottom:  solid #81C4F8;
+    z-index: 10;
+}
+
+.homeBtn{
+    border: 5px;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    /* border: solid #81C4F8 1px; */
+    border-radius: 20px;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+
+    0 0 0.1vw  0.1vw #c4e6ff,   
+    0 0 0.2vw  0.2vw #47d3d8, 
+    0 0   2vw  0.3vw #81C4F8,
+
+    inset 0 0 0.3vw  0.2vw #81C4F8,
+    inset 0 0 0.2vw  0.1vw #47d3d8,
+    inset 0 0 0.1vw  0.05vw #c4e6ff;
+}
+
+.Game , .Zone{
+    font-family: 'Paytone One';
+}
+
+.Game{
+    color: #81C4F8;
+}
+
+.Zone{
+    padding-top: 7px;
+    padding-left: 5px;
+    color: #E2318F;
+}
+
+.searchbar{
+    width: 40%;
+}
+
+.searchForm{
+    display: flex;
+    flex-direction: row;
+}
+.search{
+    width: 75%;
+}
+.categ{
+    width: 10%;
+}
+
+.sub{
+    width:15%;
+}
+
+a{
+    text-decoration : none;
+    color: #E5E5E5;
+}
+
+.cptBtn{
+    width: 10%;
+}
+
+.panierBtn{
+    width: 10%;
+}

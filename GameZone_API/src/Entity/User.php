@@ -9,32 +9,42 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-#[ApiResource]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ApiResource(
+    normalizationContext: ['groups' => ['read:users']],
+    itemOperations: [
+       'PUT','DELETE','PATCH',
+       'get'=> [
+           'normalization_context' => ['groups' => ['read:user']],
+       ],
+   ],
+   )]
+class User implements UserInterface, PasswordAuthenticatedUserInterface, JWTUserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    
+    #[Groups(['read:users','read:user'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    
+    #[Groups(['read:users','read:user'])]
     private $email;
 
     /**
      * @ORM\Column(type="json")
      */
+    #[Groups(['read:users','read:user'])]
     private $roles = [];
 
     /**
@@ -46,24 +56,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:users','read:user'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:users','read:user'])]
     private $prenom;
 
     /**
      * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="user")
      */
-    
+    #[Groups(['read:user'])]
     private $commandes;
 
-    public function __construct()
+    public function __construct( $username = null , array $roles= null, $prenom= null , $id= null)
     {
         $this->commandes = new ArrayCollection();
+        $this->username = $username;
+        $this->roles = $roles;
+        $this->prenom = $prenom;
+        $this->id = $id;
     }
 
     public function getId(): ?int
@@ -207,6 +221,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public static function createFromPayload($username, array $payload)
+    {
+        return new self(
+            $username,
+            $payload['roles'], // Added by default
+            $payload['id'],  // Custom
+            $payload['prenom']
+        );
     }
 
     

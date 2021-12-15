@@ -7,6 +7,7 @@ use App\Repository\ListeRepository;
 use App\Entity\Produit;
 use App\Entity\Commande;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ListeRepository::class)
@@ -19,17 +20,20 @@ class Liste
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:user'])]
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:user'])]
     private $quantité;
 
     /**
-     * @ORM\ManyToOne(targetEntity=produit::class, inversedBy="listes")
+     * @ORM\ManyToOne(targetEntity=produit::class, inversedBy="listes") 
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Groups(['read:user'])]
     private $produit;
 
     /**

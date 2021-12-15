@@ -22,25 +22,25 @@ class Commande
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    
+    #[Groups(['read:user'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:user'])]
     private $adressFacturation;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    
+    #[Groups(['read:user'])]
     private $adresseLivraison;
 
     /**
      * @ORM\Column(type="date")
      */
-    
+    #[Groups(['read:user'])]
     private $dateCommande;
 
     /**
@@ -52,11 +52,13 @@ class Commande
     /**
      * @ORM\OneToMany(targetEntity=liste::class, mappedBy="commande", orphanRemoval=true)
      */
+    #[Groups(['read:user'])]
     private $liste;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:user'])]
     private $statut;
 
     public function __construct()
